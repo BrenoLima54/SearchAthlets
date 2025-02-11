@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Image, TouchableOpacity, FlatList } from 'react-native';
 
-const fighters = [{
-  id: '1',
-  name: 'ANDERSON SILVA',
-  nickname: 'ARANHA',
-  category: 'PESADO',
-  image: 'https://example.com/anderson.png'
-}];
-
 const HomeScreen = ({ navigation }) => {
   const [search, setSearch] = useState('');
   const [filteredFighters, setFilteredFighters] = useState(fighters);
