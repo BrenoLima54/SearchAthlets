@@ -7,7 +7,7 @@ const FavoriteScreen = ({ route }) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', padding: 20 }}>
         
-      <Image source={{ uri: 'https://example.com/mma-logo.png' }} style={{ width: 100, height: 100 }} />
+      <Image source={{ uri: 'https://imgur.com/wRDdZpf' }} style={{ width: 100, height: 100 }} />
       <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Meu Favorito</Text>
 
       {favorite ? (
