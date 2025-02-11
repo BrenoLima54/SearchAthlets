@@ -2,11 +2,28 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 
 const InfoScreen = ({ route }) => {
+
+  const soco = {
+    uri: 'https://i.imgur.com/bmvRLJr.png',
+    flex: 10,
+    padding: 40,
+    width: 80,
+    height: 64,
+  };
+  const MMA = {
+    uri: 'https://i.imgur.com/wRDdZpf.png',
+    flex: 10,
+    padding: 182,
+    width: 81,
+    height: 25,
+  };
+
   const fighter = route.params?.fighter || null;
 
   return (
     <View style={{ flex: 1, alignItems: 'center', padding: 20 }}>
-      <Image source={{ uri: 'https://imgur.com/wRDdZpf' }} style={{ width: 100, height: 100 }} />
+      <Image source={soco} />
+      <Image source={MMA} />
       <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Seu Lutador</Text>
 
       {fighter ? (
