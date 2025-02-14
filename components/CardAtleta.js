@@ -1,35 +1,44 @@
+/* eslint-disable react/prop-types */
 import React from "react";
-import { View, Text, StyleSheet, Button, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 
-export default function CardAtleta({ atleta, onFavorito }) {
+export default function CardAtleta({ athete, isFavorite, onFavorite }) {
   return (
-    <View style={styles.card}>
+    <View
+      key={athete.id}
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 10,
+        borderWidth: 1,
+        borderRadius: 10,
+        marginTop: 10,
+        width: "90%",
+      }}
+    >
       <Image
-        source={{ uri: atleta.photo }}
-        style={{ width: 100, height: 100, resizeMode: "cover" }}
+        source={{ uri: athete.photo }}
+        style={{ width: 50, height: 50, borderRadius: 25 }}
       />
-      <Text style={styles.title}>{atleta.name}</Text>
-      <Text>Categoria: {atleta.category}</Text>
-      <Text>Apelido: {atleta.nickname}</Text>
-      <Text>Altura: {atleta.height}</Text>
-      <Button title="Favoritar" onPress={() => onFavorito(atleta)} />
+
+      <View style={{ marginLeft: 10 }}>
+        <Text style={{ fontSize: 18 }}>{athete.name}</Text>
+        <Text style={{ fontSize: 16, color: "gray" }}>{athete.nickname}</Text>
+      </View>
+
+      <TouchableOpacity
+        style={{
+          marginLeft: "auto",
+          backgroundColor: isFavorite ? "gray" : "blue",
+          padding: 5,
+          borderRadius: 5,
+        }}
+        onPress={() => onFavorite(athete)}
+      >
+        <Text style={{ color: "white" }}>
+          {isFavorite ? "Remover" : "Favoritar"}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    padding: 10,
-    marginVertical: 10,
-    backgroundColor: "#f9f9f9",
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});

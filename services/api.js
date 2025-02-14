@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// eslint-disable-next-line no-undef
 const dotenv = process.env;
 export async function fetchAthletes(search = "") {
   try {
