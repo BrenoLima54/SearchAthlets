@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
+import { fetchFights } from "../services/api";
 
 const InfoScreen = () => {
   const formatDate = useCallback((dateString) => {
@@ -25,10 +26,18 @@ const InfoScreen = () => {
   const soco = { uri: "https://i.imgur.com/bmvRLJr.png" };
   const MMA = { uri: "https://i.imgur.com/wRDdZpf.png" };
 
-  const handleDayPress = (day) => {
-    setSelectedDate(day.dateString);
-    setFights(fightsData[day.dateString] || []);
-  };
+  const handleDayPress = useCallback(async (date) => {
+    setSelectedDate(date.dateString);
+    setFights((await fetchFights(date.dateString)) || []);
+  });
+
+  useEffect(() => {
+    const getFights = async () => {
+      setFights((await fetchFights(selectedDate)) || []);
+    };
+
+    getFights();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -55,7 +64,27 @@ const InfoScreen = () => {
         data={fights}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <Text style={styles.fightItem}>{item.slug}</Text>
+          <View>
+            <View>
+              <Image
+                style={styles.image}
+                source={{ uri: item.fighters.first.logo }}
+              />
+              <Text>{item.fighters.first.name}</Text>
+            </View>
+
+            <Text>VS.</Text>
+
+            <View>
+              <Image
+                style={styles.image}
+                source={{ uri: item.fighters.second.logo }}
+              />
+              <Text>{item.fighters.second.name}</Text>
+            </View>
+
+            <Text>{item.category}</Text>
+          </View>
         )}
       />
     </SafeAreaView>

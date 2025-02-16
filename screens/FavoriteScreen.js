@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from "react";
-import { View, Text, Image, SafeAreaView } from "react-native";
+import { Text, Image, SafeAreaView } from "react-native";
 import CardAtleta from "../components/CardAtleta";
 import { useFavorite } from "../hooks/use-favorite";
 
