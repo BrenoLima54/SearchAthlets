@@ -59,28 +59,31 @@ const InfoScreen = () => {
       <Text style={styles.fightsTitle}>
         Lutas no dia {formatDate(selectedDate)}
       </Text>
-
       <FlatList
+        contentContainerStyle={styles.flatList}
+        style={{ width: "100%" }}
         data={fights}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View>
-            <View>
-              <Image
-                style={styles.image}
-                source={{ uri: item.fighters.first.logo }}
-              />
-              <Text>{item.fighters.first.name}</Text>
-            </View>
+          <View style={styles.containerCard}>
+            <View style={styles.cardFight}>
+              <View style={styles.cardInfo}>
+                <Image
+                  style={styles.image}
+                  source={{ uri: item.fighters.first.logo }}
+                />
+                <Text>{item.fighters.first.name}</Text>
+              </View>
 
-            <Text>VS.</Text>
+              <Text>VS.</Text>
 
-            <View>
-              <Image
-                style={styles.image}
-                source={{ uri: item.fighters.second.logo }}
-              />
-              <Text>{item.fighters.second.name}</Text>
+              <View style={styles.cardInfo}>
+                <Image
+                  style={styles.image}
+                  source={{ uri: item.fighters.second.logo }}
+                />
+                <Text>{item.fighters.second.name}</Text>
+              </View>
             </View>
 
             <Text>{item.category}</Text>
@@ -92,6 +95,28 @@ const InfoScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  cardFight: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    alignItems: "center",
+  },
+  cardInfo: {
+    width: "30%",
+    alignItems: "center",
+  },
+  flatList: {
+    alignItems: "center",
+  },
+  containerCard: {
+    width: "90%",
+    height: "150px",
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 10,
+    marginTop: 10,
+    alignItems: "center",
+  },
   container: {
     flex: 1,
     alignItems: "center",
