@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useEffect } from "react";
 import {
-  View,
   Image,
   Text,
   FlatList,
   TextInput,
   Button,
   ActivityIndicator,
+  SafeAreaView,
 } from "react-native";
 import { fetchAthletes } from "../services/api";
 import CardAtleta from "../components/CardAtleta";
@@ -54,7 +54,7 @@ const HomeScreen = ({ navigation }) => {
   }, [navigation]);
 
   return (
-    <View style={{ flex: 1, alignItems: "center", padding: 20 }}>
+    <SafeAreaView style={{ flex: 1, alignItems: "center", padding: 20 }}>
       <Image source={punchImage} />
       <Image source={mmaImage} />
 
@@ -104,7 +104,7 @@ const HomeScreen = ({ navigation }) => {
           )}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

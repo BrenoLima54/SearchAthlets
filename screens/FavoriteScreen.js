@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, SafeAreaView } from "react-native";
 import CardAtleta from "../components/CardAtleta";
 import { useFavorite } from "../hooks/use-favorite";
 
@@ -30,7 +30,7 @@ const FavoriteScreen = ({ navigation }) => {
   }, [navigation]);
 
   return (
-    <View style={{ flex: 1, alignItems: "center", padding: 20 }}>
+    <SafeAreaView style={{ flex: 1, alignItems: "center", padding: 20 }}>
       <Image source={punchImage} />
       <Image source={mmaImage} />
 
@@ -50,7 +50,7 @@ const FavoriteScreen = ({ navigation }) => {
           Nenhum favorito selecionado. Escolha um na Home.
         </Text>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

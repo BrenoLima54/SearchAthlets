@@ -1,15 +1,29 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, FlatList } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import React, { useCallback, useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
+} from "react-native";
+import { Calendar } from "react-native-calendars";
 
-const InfoScreen = ({ route }) => {
-  const [selectedDate, setSelectedDate] = useState(null);
+const InfoScreen = () => {
+  const formatDate = useCallback((dateString) => {
+    const [year, month, day] = dateString.split("-");
+    return new Date(year, month - 1, day).toLocaleDateString("pt-BR", {
+      dateStyle: "long",
+    });
+  });
+
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [fights, setFights] = useState([]);
 
-  const soco = { uri: 'https://i.imgur.com/bmvRLJr.png' };
-  const MMA = { uri: 'https://i.imgur.com/wRDdZpf.png' };
-
-  const fighter = route.params?.fighter || null;
+  const soco = { uri: "https://i.imgur.com/bmvRLJr.png" };
+  const MMA = { uri: "https://i.imgur.com/wRDdZpf.png" };
 
   const handleDayPress = (day) => {
     setSelectedDate(day.dateString);
@@ -17,45 +31,43 @@ const InfoScreen = ({ route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Image source={soco} style={styles.image} />
       <Image source={MMA} style={styles.logo} />
       <Text style={styles.title}>Datas das Lutas</Text>
 
-      {fighter ? (
-        <>
-          <Image source={{ uri: fighter.image }} style={styles.fighterImage} />
-          <Text style={styles.fighterName}>{fighter.name}</Text>
-          <Text style={styles.fighterDetails}>{fighter.nickname}</Text>
-          <Text style={styles.fighterDetails}>{fighter.category}</Text>
-        </>
-      ) : (
-        <Calendar
+      <Calendar
         onDayPress={handleDayPress}
+        theme={{
+          backgroundColor: "#f8f8f8",
+          calendarBackground: "#f8f8f8",
+        }}
         markedDates={{
-          [selectedDate]: { selected: true, selectedColor: '#ff0000' },
+          [selectedDate]: { selected: true, selectedColor: "gray" },
         }}
       />
-        
-      )}
 
+      <Text style={styles.fightsTitle}>
+        Lutas no dia {formatDate(selectedDate)}
+      </Text>
 
-      <Text style={styles.fightsTitle}>Lutas no dia {selectedDate || '...'}</Text>
       <FlatList
         data={fights}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <Text style={styles.fightItem}>{item.title}</Text>}
+        renderItem={({ item }) => (
+          <Text style={styles.fightItem}>{item.slug}</Text>
+        )}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
     padding: 20,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: "#f8f8f8",
   },
   image: {
     width: 80,
@@ -69,7 +81,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   fighterImage: {
@@ -80,25 +92,25 @@ const styles = StyleSheet.create({
   },
   fighterName: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   fighterDetails: {
     fontSize: 18,
-    color: 'gray',
+    color: "gray",
   },
   noFighterText: {
     fontSize: 18,
-    color: 'gray',
+    color: "gray",
     marginTop: 20,
   },
   fightsTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 20,
   },
   fightItem: {
     fontSize: 18,
-    color: '#333',
+    color: "#333",
     paddingVertical: 5,
   },
 });

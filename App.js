@@ -14,24 +14,27 @@ export default function App() {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ color, size }) => {
-            let iconName;
-            if (route.name === "Inicio") {
-              iconName = "home-outline";
-            } else if (route.name === "Info") {
-              iconName = "information-circle-outline";
-            } else if (route.name === "Favorito") {
-              iconName = "heart-outline";
-            }
-            return <Ionicons name={iconName} size={size} color={color} />;
+            const iconNames = {
+              Início: "home-outline",
+              Favorito: "heart-outline",
+              "Calendário de Lutas": "calendar-outline",
+            };
+            return (
+              <Ionicons
+                name={iconNames[route.name]}
+                size={size}
+                color={color}
+              />
+            );
           },
           tabBarActiveTintColor: "black",
           tabBarInactiveTintColor: "gray",
           headerShown: false,
         })}
       >
-        <Tab.Screen name="Inicio" component={HomeScreen} />
-        <Tab.Screen name="Info" component={InfoScreen} />
+        <Tab.Screen name="Início" component={HomeScreen} />
         <Tab.Screen name="Favorito" component={FavoriteScreen} />
+        <Tab.Screen name="Calendário de Lutas" component={InfoScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
