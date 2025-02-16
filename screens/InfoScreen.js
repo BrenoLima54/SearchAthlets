@@ -60,8 +60,8 @@ const InfoScreen = () => {
         Lutas no dia {formatDate(selectedDate)}
       </Text>
       <FlatList
-        contentContainerStyle={styles.flatList}
-        style={{ width: "100%" }}
+        contentContainerStyle={styles.flatListContainer}
+        style={styles.flatList}
         data={fights}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
@@ -75,7 +75,7 @@ const InfoScreen = () => {
                 <Text>{item.fighters.first.name}</Text>
               </View>
 
-              <Text>VS.</Text>
+              <Text style={{ fontWeight: "bold", fontSize: "40" }}>VS.</Text>
 
               <View style={styles.cardInfo}>
                 <Image
@@ -86,7 +86,9 @@ const InfoScreen = () => {
               </View>
             </View>
 
-            <Text>{item.category}</Text>
+            <Text style={{ color: "gray", fontWeight: "bold" }}>
+              {item.category}
+            </Text>
           </View>
         )}
       />
@@ -105,8 +107,11 @@ const styles = StyleSheet.create({
     width: "30%",
     alignItems: "center",
   },
-  flatList: {
+  flatListContainer: {
     alignItems: "center",
+  },
+  flatList: {
+    width: "100%",
   },
   containerCard: {
     width: "90%",
