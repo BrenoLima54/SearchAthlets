@@ -11,8 +11,9 @@ import {
 import { fetchAthletes } from "../services/api";
 import CardAtleta from "../components/CardAtleta";
 import { useFavorite } from "../hooks/use-favorite";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const punchImage = {
     uri: "https://i.imgur.com/bmvRLJr.png",
     flex: 10,
@@ -38,7 +39,7 @@ const HomeScreen = () => {
     try {
       const data = await fetchAthletes(search);
       setFighters(data);
-      sessionStorage.setItem("fighters", JSON.stringify(data));
+      await AsyncStorage.setItem("fighters", JSON.stringify(data));
     } catch (error) {
       console.error("Erro ao buscar lutadores:", error);
     } finally {
@@ -96,7 +97,8 @@ const HomeScreen = () => {
               athete={item}
               onFavorite={handleFavorite}
               isFavorite={Boolean(
-                favorites.find((favorite) => favorite.id === item.id)
+                favorites &&
+                  favorites.find((favorite) => favorite.id === item.id)
               )}
             />
           )}

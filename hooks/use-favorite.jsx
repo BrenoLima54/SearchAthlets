@@ -1,36 +1,35 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useEffect, useState } from "react";
 
 export function useFavorite() {
   const [favorites, setFavorites] = useState([]);
 
   const handleFavorite = useCallback(
-    (item) => {
-      if (favorites.find((favorite) => favorite.id === item.id)) {
-        setFavorites((prev) => {
-          const newFavorites = prev.filter(
-            (favorite) => favorite.id !== item.id
-          );
-          sessionStorage.setItem("favorites", JSON.stringify(newFavorites));
-          return newFavorites;
-        });
+    async (item) => {
+      let newFavorites;
+      if (favorites && favorites.find((favorite) => favorite.id === item.id)) {
+        newFavorites = favorites.filter((favorite) => favorite.id !== item.id);
       } else {
-        setFavorites((prev) => {
-          const newFavorites = [...prev, item];
-          sessionStorage.setItem("favorites", JSON.stringify(newFavorites));
-          return newFavorites;
-        });
+        newFavorites = [...favorites, item];
       }
+      setFavorites(newFavorites);
+      await AsyncStorage.setItem("favorites", JSON.stringify(newFavorites));
     },
-    [favorites, setFavorites]
+    [favorites]
   );
 
-  const fetchFavorites = useCallback(() => {
-    setFavorites(JSON.parse(sessionStorage.getItem("favorites")) || []);
+  const fetchFavorites = useCallback(async () => {
+    const storedFavorites = await AsyncStorage.getItem("favorites");
+    if (storedFavorites) {
+      setFavorites(JSON.parse(storedFavorites));
+    } else {
+      setFavorites([]);
+    }
   }, []);
 
   useEffect(() => {
     fetchFavorites();
-  }, []);
+  }, [fetchFavorites]);
 
   return { favorites, handleFavorite, fetchFavorites };
 }
